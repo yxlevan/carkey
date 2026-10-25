@@ -1,0 +1,10 @@
+{
+  "name": "bg-scanner",
+  "version": "0.0.1",
+  "main": "web.js",
+  "capacitor": {
+    "android": {
+      "src": "android"
+    }
+  }
+}
