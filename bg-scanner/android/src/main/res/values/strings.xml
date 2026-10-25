@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="a11y_desc">用于在通知栏自动点击车控 App 的解锁/闭锁控件（自定义通知布局时兜底）</string>
+</resources>
