@@ -1,0 +1,49 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        working-directory: car-key-scanner
+        run: npm install
+
+      - name: Build web assets
+        working-directory: car-key-scanner
+        run: npm run build
+
+      - name: Add Android platform
+        working-directory: car-key-scanner
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        working-directory: car-key-scanner
+        run: npx cap sync android
+
+      - name: Build Debug APK
+        working-directory: car-key-scanner/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: starship-ble-debug-apk
+          path: car-key-scanner/android/app/build/outputs/apk/debug/app-debug.apk
